@@ -32,10 +32,17 @@ module.exports = {
    */
 
   userName(name) {
+    try{
+      if(typeof name!='string') throw 'input must be a string'
+      if (name.length < 3) throw 'input string length must be >=3'
     if (name.length >= 3)
       return name;
     else
       console.log("Invalid Input");
+    }
+    catch(err){
+      return err;
+    }
   },
 
   /**
@@ -74,13 +81,22 @@ module.exports = {
    * @description to take a user input and check whether it is leap year or not
    */
   leapYear(year) {
+    try{
+      //console.log("year length---", year.length);
+      
+      if(typeof (year) !='number') throw "input must be a number"
 
-    /**
-   * @description 
-   * @var yearlen calculating the length of th user input
-   */
+      /**
+       * @description 
+       * @var yearlen calculating the length of th user input
+       */
 
-    yearlen = year.toString().length;
+   var yearlen = year.toString().length;
+   
+    //console.log("yearlen-----", yearlen);
+    
+    if(yearlen!=4) throw "input length must be equal to 4"
+    var bool=false;
     /**
    * @description if the length is equal to 4 then move ahead else the input is not a year
    */
@@ -92,12 +108,21 @@ module.exports = {
       */
 
       if (((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0))
-        console.log(year + " is a leap year");
+         bool=true;
+        //console.log(year + " is a leap year");
       else
-        console.log(year + " is a not leap year");
+         bool=false;
+        //console.log(year + " is a not leap year");
     }
-    else
-      console.log(year + " is an Invalid Input");
+    else{
+        console.log(year + " is an Invalid Input");}
+        return bool;
+    }
+    catch(err){
+      return err;
+    }
+
+    
   },
 
   /**
@@ -214,10 +239,14 @@ module.exports = {
     /**
      * @description initialse @var win,loss,bet and iterating variable to 0
      */
+    try{
     var win = 0;
     var loss = 0;
     var bet = 0;
     var i = 0;
+    if(typeof (stake)!='number'||typeof (goal)!='number'||typeof(n)!='number') throw 'input must be a number'
+    if(stake>goal) throw 'stake is > goal hence game cannot be played'
+    if(stake<=0||goal<=0||n<=0) throw 'inputs cannot be 0 or negative'
     /**
      * @description since the gambler will be playing only when
      * the stake is positive
@@ -251,14 +280,22 @@ module.exports = {
       * @description since iteration happened so increment it by 1
       */
       i++;
-    }
-    console.log("Total bets are: " + bet);
-    console.log("Total wins are: " + win);
+    
+    //console.log("Total bets are: " + bet);
+    //console.log("Total wins are: " + win);
     /**
     * @description the win percentage is calculated by win/total no of bets played
     * here we are considering only the no of bets because a person can play n times and get bankrupt/win before it
     */
-    console.log("Win percentage is: " + win / bet + " Loss percentage is: " + loss / bet);
+   
+    //console.log("Win percentage is: " + win / bet + " Loss percentage is: " + loss / bet);
+    }
+    var ans= parseInt([bet, win, loss, win/bet, loss/bet]);
+    return ans;
+  }
+  catch(err){
+    return err;
+  }
   },
 
   /**
@@ -389,13 +426,19 @@ module.exports = {
    * @description 
    * @var distance = sqrt(x*x + y*y)
    */
-    var euc_dist = Math.pow(((Math.pow(x, 2)) + (Math.pow(y, 2))), 1 / 2);
-    console.log("The eucledian distance is: " + euc_dist);
+  try{
+    if(typeof(x) != 'number' || typeof(y) != 'number') throw 'input should be number'
+    var euc_dist = parseFloat(Math.pow(((Math.pow(x, 2)) + (Math.pow(y, 2))), 1 / 2));
+    //console.log("The eucledian distance is: " + euc_dist);
     /**
    * @description 
    * @return euc_dist
    */
     return euc_dist;
+  }
+  catch(err){
+  return err;
+  }
   },
 
 /**

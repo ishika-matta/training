@@ -1,4 +1,4 @@
-const assert=require('chai').assert;
+/*const assert=require('chai').assert;
 const distance1=require('../appDistance');
 
 describe('Distance app',function(){
@@ -11,3 +11,4 @@ describe('Distance app',function(){
         this.timeout(100000);
    });
 });
+*/

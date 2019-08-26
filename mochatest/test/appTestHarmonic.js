@@ -1,4 +1,4 @@
-const assert=require('chai').assert;
+/*const assert=require('chai').assert;
 const harmonic0=require('/home/user/Desktop/ishika-matta/HarmonicNumber');
 
 describe('Harmonic app',function(){
@@ -7,3 +7,4 @@ describe('Harmonic app',function(){
         assert.typeOf(resultHarmonic,'number');
     });
 });
+*/

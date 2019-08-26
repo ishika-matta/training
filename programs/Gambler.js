@@ -19,5 +19,6 @@ var goal=readline.question("Enter the goal: ");
 var n=readline.question("Enter the number of times the game is being played: ");
 
 let a=require('../utility/utility.js');
+var res=a.gambler(stake,goal,n)
+console.log("The no of bets, win, loss, win percentage, loss percentage resp are: "+res);
 
-a.gambler(stake,goal,n);
