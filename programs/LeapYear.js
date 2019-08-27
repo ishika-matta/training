@@ -16,8 +16,10 @@
 var readline=require('readline-sync');
 let a=require('../utility/utility.js');
 console.log("To check whether the input is a leap year or not");
-var year=a.input();
+var year=parseInt(a.input());
+console.log(year);
 var ans=a.leapYear(year);
+console.log(ans);
 if(ans==true)
 console.log(year + " is a leap year");
 else

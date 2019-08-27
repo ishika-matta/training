@@ -14,9 +14,9 @@
 *******************************************************************************/
 
 var readline=require('readline-sync');
-var stake=readline.question("Enter the stake: ");
-var goal=readline.question("Enter the goal: ");
-var n=readline.question("Enter the number of times the game is being played: ");
+var stake=parseInt(readline.question("Enter the stake: "));
+var goal=parseInt(readline.question("Enter the goal: "));
+var n=parseInt(readline.question("Enter the number of times the game is being played: "));
 
 let a=require('../utility/utility.js');
 var res=a.gambler(stake,goal,n)

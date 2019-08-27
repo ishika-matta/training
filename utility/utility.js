@@ -18,9 +18,9 @@
 var readline = require('readline-sync');
 module.exports = {
 
-/**
-* @description used to take user input value
-*/
+  /**
+  * @description used to take user input value
+  */
   input() {
     console.log("Enter a value: ");
     var value = readline.question();
@@ -32,15 +32,16 @@ module.exports = {
    */
 
   userName(name) {
-    try{
-      if(typeof name!='string') throw 'input must be a string'
+    try {
+      if (typeof name != 'string') throw 'input must be a string'
+      if (isNaN(name)) throw 'input must be a string'
       if (name.length < 3) throw 'input string length must be >=3'
-    if (name.length >= 3)
-      return name;
-    else
-      console.log("Invalid Input");
+      if (name.length >= 3)
+        return name;
+      else
+        console.log("Invalid Input");
     }
-    catch(err){
+    catch (err) {
       return err;
     }
   },
@@ -81,48 +82,51 @@ module.exports = {
    * @description to take a user input and check whether it is leap year or not
    */
   leapYear(year) {
-    try{
+    try {
       //console.log("year length---", year.length);
-      
-      if(typeof (year) !='number') throw "input must be a number"
+
+      //if(typeof (year) !='number') throw "input must be a number"
+      if (isNaN(year)) throw "input must be a number"
 
       /**
        * @description 
        * @var yearlen calculating the length of th user input
        */
 
-   var yearlen = year.toString().length;
-   
-    //console.log("yearlen-----", yearlen);
-    
-    if(yearlen!=4) throw "input length must be equal to 4"
-    var bool=false;
-    /**
-   * @description if the length is equal to 4 then move ahead else the input is not a year
-   */
+      var yearlen = year.toString().length;
 
-    if (yearlen == 4) {
+      //console.log("yearlen-----", yearlen);
 
+      if (yearlen != 4) throw "input length must be equal to 4"
+      var bool = false;
       /**
-      * @description checking for leap year and century years
-      */
+     * @description if the length is equal to 4 then move ahead else the input is not a year
+     */
 
-      if (((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0))
-         bool=true;
+      if (yearlen == 4) {
+
+        /**
+        * @description checking for leap year and century years
+        */
+
+        if (((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0))
+          bool = true;
         //console.log(year + " is a leap year");
-      else
-         bool=false;
+        else
+          bool = false;
         //console.log(year + " is a not leap year");
+        ///return bool;
+      }
+      else {
+        console.log(year + " is an Invalid Input");
+      }
+      return bool;
     }
-    else{
-        console.log(year + " is an Invalid Input");}
-        return bool;
-    }
-    catch(err){
+    catch (err) {
       return err;
     }
 
-    
+
   },
 
   /**
@@ -239,63 +243,64 @@ module.exports = {
     /**
      * @description initialse @var win,loss,bet and iterating variable to 0
      */
-    try{
-    var win = 0;
-    var loss = 0;
-    var bet = 0;
-    var i = 0;
-    if(typeof (stake)!='number'||typeof (goal)!='number'||typeof(n)!='number') throw 'input must be a number'
-    if(stake>goal) throw 'stake is > goal hence game cannot be played'
-    if(stake<=0||goal<=0||n<=0) throw 'inputs cannot be 0 or negative'
-    /**
-     * @description since the gambler will be playing only when
-     * the stake is positive
-     * goal has not been acheived
-     * iterating variable is less than the no of times he wants to play
-     */
-    while ((stake > 0) && (stake < goal) && i < n) {
+    try {
+      var win = 0;
+      var loss = 0;
+      var bet = 0;
+      var i = 0;
+      if (typeof (stake) != 'number' || typeof (goal) != 'number' || typeof (n) != 'number') throw 'input must be a number'
+      if (isNaN(stake) || isNaN(goal) || isNaN(n)) throw 'input must be a number'
+      if (stake > goal) throw 'stake is > goal hence game cannot be played'
+      if (stake <= 0 || goal <= 0 || n <= 0) throw 'inputs cannot be 0 or negative'
       /**
-       * @description the person plays a game so his bet is +1
+       * @description since the gambler will be playing only when
+       * the stake is positive
+       * goal has not been acheived
+       * iterating variable is less than the no of times he wants to play
        */
-      bet++;
-      /**
-       * @description random value if is >0.5 then 
-       * stake increments by 1
-       * win case so increment win by 1
-       */
-      if (Math.random() > 0.5) {
-        stake++;
-        win++;
+      while ((stake > 0) && (stake < goal) && i < n) {
+        /**
+         * @description the person plays a game so his bet is +1
+         */
+        bet++;
+        /**
+         * @description random value if is >0.5 then 
+         * stake increments by 1
+         * win case so increment win by 1
+         */
+        if (Math.random() > 0.5) {
+          stake++;
+          win++;
+        }
+        /**
+        * @description random value if is <0.5 then 
+        * stake decrements by 1
+        * loss case so decrement loss by 1
+        */
+        else {
+          stake--;
+          loss++;
+        }
+        /**
+        * @description since iteration happened so increment it by 1
+        */
+        i++;
+
+        //console.log("Total bets are: " + bet);
+        //console.log("Total wins are: " + win);
+        /**
+        * @description the win percentage is calculated by win/total no of bets played
+        * here we are considering only the no of bets because a person can play n times and get bankrupt/win before it
+        */
+
+        //console.log("Win percentage is: " + win / bet + " Loss percentage is: " + loss / bet);
       }
-      /**
-      * @description random value if is <0.5 then 
-      * stake decrements by 1
-      * loss case so decrement loss by 1
-      */
-      else {
-        stake--;
-        loss++;
-      }
-      /**
-      * @description since iteration happened so increment it by 1
-      */
-      i++;
-    
-    //console.log("Total bets are: " + bet);
-    //console.log("Total wins are: " + win);
-    /**
-    * @description the win percentage is calculated by win/total no of bets played
-    * here we are considering only the no of bets because a person can play n times and get bankrupt/win before it
-    */
-   
-    //console.log("Win percentage is: " + win / bet + " Loss percentage is: " + loss / bet);
+      var ans = [bet, win, loss, win / bet, loss / bet];
+      return ans;
     }
-    var ans= parseInt([bet, win, loss, win/bet, loss/bet]);
-    return ans;
-  }
-  catch(err){
-    return err;
-  }
+    catch (err) {
+      return err;
+    }
   },
 
   /**
@@ -417,33 +422,34 @@ module.exports = {
       console.log("No triplets found");
   },
 
-/**
-* @description taking x,y coordinates user input and calculating the distance from the origin
-*/
+  /**
+  * @description taking x,y coordinates user input and calculating the distance from the origin
+  */
 
   eucledainDist(x, y) {
     /**
    * @description 
    * @var distance = sqrt(x*x + y*y)
    */
-  try{
-    if(typeof(x) != 'number' || typeof(y) != 'number') throw 'input should be number'
-    var euc_dist = parseFloat(Math.pow(((Math.pow(x, 2)) + (Math.pow(y, 2))), 1 / 2));
-    //console.log("The eucledian distance is: " + euc_dist);
-    /**
-   * @description 
-   * @return euc_dist
-   */
-    return euc_dist;
-  }
-  catch(err){
-  return err;
-  }
+    try {
+      //if(typeof(x) != 'number' || typeof(y) != 'number') throw 'input should be number'
+      if (isNaN(x) || isNaN(y)) throw "input should be number"
+      var euc_dist = parseFloat(Math.pow(((Math.pow(x, 2)) + (Math.pow(y, 2))), 1 / 2));
+      //console.log("The eucledian distance is: " + euc_dist);
+      /**
+     * @description 
+     * @return euc_dist
+     */
+      return euc_dist;
+    }
+    catch (err) {
+      return err;
+    }
   },
 
-/**
-* @description used to calculate the time elapse between two timings
-*/
+  /**
+  * @description used to calculate the time elapse between two timings
+  */
 
   stopWatch() {
     /**
@@ -470,9 +476,9 @@ module.exports = {
     console.log("Time Elapsed in milisec is: " + d);
   },
 
-/**
-* @description finding roots of the equation a*x*x + b*x + c
-*/
+  /**
+  * @description finding roots of the equation a*x*x + b*x + c
+  */
 
   quadRoot(a, b, c) {
     /**
@@ -491,9 +497,9 @@ module.exports = {
     console.log("Roots are: " + [root1, root2]);
   },
 
-/**
-* @description calculating windChill using 2 command line arguments
-*/
+  /**
+  * @description calculating windChill using 2 command line arguments
+  */
 
   windChill(t, v) {
     /**
@@ -512,9 +518,9 @@ module.exports = {
       console.log("Invalid Input");
   },
 
-/**
-* @description take 2 string inputs and check for anagrams
-*/
+  /**
+  * @description take 2 string inputs and check for anagrams
+  */
 
   checkAnagram(str1, str2) {
     var flag = 0;
@@ -547,9 +553,23 @@ module.exports = {
       console.log("Not Anagrams");;
   },
 
-/**
-* @description finding fewest notes demoninations to be returned by the vending machine
-*/
+  bubbleSort(arr, n) {
+    for (var i = 0; i < n; i++) {
+
+      for (var j = 0; j < n - 1; j++) {
+        if (parseInt(arr[j + 1]) < parseInt(arr[j])) {
+          var temp = parseInt(arr[j]);
+          arr[j] = parseInt(arr[j + 1]);
+          arr[j + 1] = parseInt(temp);
+        }
+      }
+    }
+    return arr;
+  },
+
+  /**
+  * @description finding fewest notes demoninations to be returned by the vending machine
+  */
 
   vendingMachine(value) {
     /**
@@ -585,9 +605,9 @@ module.exports = {
   },
 
 
-/**
-* @description finding the day of week using the Gregorian calendar
-*/
+  /**
+  * @description finding the day of week using the Gregorian calendar
+  */
   dayOfWeek(m, d, y) {
     /**
     * @description using formulae
@@ -622,29 +642,29 @@ module.exports = {
     if (d0 == 6)
       console.log("Saturday");
   },
-/**
-* @description given the temperature in fahrenheit as input outputs the temperature in Celsius or viceversa
-*/
-  
+  /**
+  * @description given the temperature in fahrenheit as input outputs the temperature in Celsius or viceversa
+  */
+
   tempConversion(tempc, tempf) {
     /**
     * @description 
     * @var tempInF to convert Celsius to Fahrenheit
     * @var tempInC to convert Fahrenheit to Celsius
     */
-    var tempInF=((tempc * (9 / 5)) + 32);
-    var tempInC=(tempf - 32) * (5 / 9);
+    var tempInF = ((tempc * (9 / 5)) + 32);
+    var tempInC = (tempf - 32) * (5 / 9);
     /**
     * @description 
     * @return converted tempertaures in an array
     */
-    return [tempInC, tempInF];   
+    return [tempInC, tempInF];
   },
 
-/**
-* @description taking user inputs and calculating the monthly payment
-*/
-  
+  /**
+  * @description taking user inputs and calculating the monthly payment
+  */
+
   monthlyPayment(p, y, rate) {
     /**
     * @description using formulae
@@ -661,9 +681,9 @@ module.exports = {
     return pay;
   },
 
-/**
-* @description calculating sqaure root using Newton Method
-*/
+  /**
+  * @description calculating sqaure root using Newton Method
+  */
   sqrt(c) {
     /**
     * @description 
@@ -674,10 +694,10 @@ module.exports = {
     * @description check condition Math.abs(t - c/t) > epsilon*t where epsilon = 1e-15
     */
     while (Math.abs(t - (c / t)) > (Math.pow(10, -15)) * t) {
-         /**
-         * @description 
-         * @var t replace t with the average of c/t and t
-         */
+      /**
+      * @description 
+      * @var t replace t with the average of c/t and t
+      */
       t = ((c / t) + t) / 2;
     }
     /**
@@ -686,9 +706,9 @@ module.exports = {
     */
     return t;
   },
-/**
-* @description to convert decimal to binary
-*/
+  /**
+  * @description to convert decimal to binary
+  */
   toBinary(n) {
     var r = [];
     var bin = 0;
@@ -713,9 +733,9 @@ module.exports = {
 
   },
 
-/**
-* @description used to pass the binary into 32 bit padded form
-*/
+  /**
+  * @description used to pass the binary into 32 bit padded form
+  */
 
   padding(bin) {
 
@@ -723,13 +743,13 @@ module.exports = {
     console.log(padbin);
   },
 
-/**
-* @description Swap nibbles and find the new number
-*/  
+  /**
+  * @description Swap nibbles and find the new number
+  */
   swapNibbles(binary) {
     /**
     * @description using default bits and then doing left and right shift on them
-    */ 
+    */
 
     return ((binary & 0x0F) << 4 | (binary & 0xF0) >> 4);
   }

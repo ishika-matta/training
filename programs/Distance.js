@@ -17,14 +17,13 @@
 var readline=require('readline-sync');
 let a=require('../utility/utility.js');
 
-module.exports.distance=function(){
+
 var x1=readline.question("Enter the x coordinate: ");
 var y1=readline.question("Enter the y coordinate: ");
-//var x=parseInt(x1);
-//var y=parseInt(y1);
+var x=parseInt(x1);
+var y=parseInt(y1);
 
-var dist=a.eucledainDist(x1,y1);
+var dist=a.eucledainDist(x,y);
 //console.log(typeof(dist));
-return dist;
-}
+console.log(dist);
 

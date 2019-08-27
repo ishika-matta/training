@@ -16,12 +16,9 @@
 var readline = require('readline-sync');
 let a=require('../utility/utility.js');
 
-module.exports.userName=function(){
-    
 var name = readline.question(" “Hello <<UserName>>, How are you?” ");
+console.log(typeof(name));
 console.log(" Hello " + a.userName(name) + ", How are you? ");
-//a.userName(name);	
-return name;
-}
+
 
 
