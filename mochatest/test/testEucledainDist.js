@@ -11,15 +11,15 @@ describe('Eucledain Distance', function(){
         assert.equal(result,"input should be number");
     });
     it('input should not be a null',function(){
-        let result=ed.eucledainDist(null,null);
+        let result=ed.eucledainDist(null);
         assert.equal(result,"input should be number");
     });
     it('input should not be undefined',function(){
-        let result=ed.eucledainDist(undefined,undefined);
+        let result=ed.eucledainDist(undefined);
         assert.equal(result,"input should be number");
     });
     it('input should not be boolean',function(){
-        let result=ed.eucledainDist(false,true);
+        let result=ed.eucledainDist(false);
         assert.equal(result,"input should be number");
     });
 });

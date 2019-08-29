@@ -12,9 +12,9 @@
  * @since       :   22-08-2019
 *******************************************************************************/
 
-var readline = require('readline-sync');
-let a=require('../utility/utility.js');
+const readline = require('readline-sync');
+let utility=require('../utility/utility.js');
 console.log("No of times the coin is flipped");
-var flipno = a.input();
+var flipno = utility.input();
 
-a.coin(flipno);
+utility.coin(flipno);

@@ -16,6 +16,9 @@
 
 
 var readline = require('readline-sync');
+var fs =require('fs');
+var list= require('../../ishika-matta/ds/utilityDS/utilLinkedList');
+var Stack = require('../ds/utilityDS/utilStack.js');
 module.exports = {
 
   /**
@@ -622,7 +625,7 @@ module.exports = {
     //console.log(x);
     var m0 = m + 12 * ((14 - m) / 12) - 2;
     //console.log(m0);
-    var d0 = (d + x + 31 * m0 / 12) % 7;
+    var d0 = parseInt((d + x + 31 * m0 / 12) % 7);
     console.log(d0);
     /**
     * @description print 0 for Sunday, 1 for Monday, 2 for Tuesday, and so forth.
@@ -641,6 +644,8 @@ module.exports = {
       console.log("Friday");
     if (d0 == 6)
       console.log("Saturday");
+      //if(d0>0&&d0<7)
+      //return d0;
   },
   /**
   * @description given the temperature in fahrenheit as input outputs the temperature in Celsius or viceversa
@@ -752,5 +757,76 @@ module.exports = {
     */
 
     return ((binary & 0x0F) << 4 | (binary & 0xF0) >> 4);
+  },
+
+
+  fileRead(filename,callback){
+    fs.readFile(filename,'utf-8',function(err,data){
+      callback(null,data);
+    })
+
+  },
+
+  unorderedList(fileName,search){
+    var file,length;
+    this.fileRead(fileName,(err,data)=>{
+      
+        file=data;
+         var words= file.split(" ");
+         length=words.length;
+         var ll= new list.LinkedList();
+         for(i=0;i<length;i++)
+         {
+             ll.insertLast(words[i]);
+         }
+         if(ll.searchWord(search))
+           ll.removeAt(ll.searchWord(search));
+           else
+           ll.insertLast(search);
+
+           var fileData=ll.listToString();
+           this.saveFile(fileData);
+                
+    });
+  },
+
+  saveFile(ipdata) {
+    fs.writeFile('Output.txt', ipdata, (err) => {
+        if (err) throw err;
+
+        console.log("success");
+    });
+
+},
+
+
+
+  balancedParam(exp) {
+    var stack=new Stack();
+    try{
+    for (var i = 0; i < exp.length; i++) {
+      if(exp[i]!=')'|| exp[i]!='('&&i==exp.length-1) throw 'invalid'
+      //return false;
+
+        if (exp[i] == '(')
+            stack.push(exp[i]);
+        if (exp[i] == ')') {
+            if (stack.size() != 0 &&exp[i-4]=='(')
+                stack.pop();
+            else
+                return false;
+        }
+        
+        
+    }
+    if (stack.isEmpty())
+        return true;
+    else
+        return false;
   }
+  catch(err){
+    return err;
+  }
+}
+
 }

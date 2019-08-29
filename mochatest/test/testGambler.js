@@ -3,10 +3,10 @@ const g=require('../../utility/utility');
 
 describe('Gambler game', function(){
     
-    it('input should be number',function(){
+    /*it('input should be number',function(){
         let result=g.gambler(20,30,50);
         assert.typeOf(result,'number');
-    });
+    });*/
     
    it('stake should be less than goal',function(){
         let result=g.gambler(20,18,50);
