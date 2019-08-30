@@ -1,3 +1,18 @@
+/******************************************************************************
+ * Execution    :   default node            terminal> node userInput.js
+ * 
+ * Purpose      :   Stack utility file
+ * 
+ * @description
+ * 
+ * @file        :   utilStack.js
+ * @overview    :   Stack utility file
+ * @module      :   Stack functions
+ * @author      :   Ishika Matta imatta09@gmail.com
+ * @version     :   1.0
+ * @since       :   30-08-2019
+*******************************************************************************/
+
 class Stack {
     constructor(){
         this.items=[];

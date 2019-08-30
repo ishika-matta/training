@@ -9,8 +9,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "deque": "0.0.4",
-    "double-ended-queue": "^2.1.0-0",
     "readline-sync": "^1.4.10"
   }
 }

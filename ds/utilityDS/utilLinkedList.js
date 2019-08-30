@@ -1,72 +1,17 @@
-/*class Node{
-    constructor(element){
-        this.element=element;
-        this.next=null;
-    }
-}
-
-class LinkedList{
-    constructor(){
-        this.head=null;
-        this.size=0;
-    }
-
-    addElement(element){
-        var node=new Node(element);
-        var current;
-        if(this.head==null)
-        this.head=node;
-        else{
-            current=this.head;
-
-            while(current.next){
-                current=current.next;
-            }
-            current.next=node;
-        }
-        this.size=this.size+1;
-    }
-
-    removeElement(element){
-         var current=this.head;
-         var prev=null;
-
-         while(current!=null){
-             if(current.element==element){
-                 if(prev==null){
-                     this.head=current.next;
-                 }
-                 else{
-                     prev.next=current.next;
-                 }
-                 this.size--;
-                 return current.element;
-                }
-                prev=current;
-                current=current.next;
-            }
-            return -1;
-    }
-
-    printList(){
-        var current=this.head;
-        var str=" ";
-        while(current){
-            str=str+current.element+" ";
-            current=current.next;
-        }
-        console.log(str);
-    }
-
-    isEmpty() {
-        if (this.size == 0)
-            return true;
-        else
-            return false;
-    }
-}
-*/
-
+/******************************************************************************
+ * Execution    :   default node            terminal> node userInput.js
+ * 
+ * Purpose      :   LinkedList utility file
+ * 
+ * @description
+ * 
+ * @file        :   utilLinkedList.js
+ * @overview    :   LinkedList utility file
+ * @module      :   LinkedList functions
+ * @author      :   Ishika Matta imatta09@gmail.com
+ * @version     :   1.0
+ * @since       :   30-08-2019
+*******************************************************************************/
 class Node {
     constructor(data, next = null) {
         this.data = data;
@@ -129,9 +74,12 @@ class LinkedList {
             if (count == index) {
                 console.log("the data is " + current.data);
             }
+            
             current = current.next;
             count++;
+            
         }
+        //return current.data;
         return null;
     }
     //remove at index
@@ -199,20 +147,47 @@ class LinkedList {
         }
         return datalist;
     }
+
+    listToArray()
+    {
+        let current=this.head;
+        let datalist=[];
+        let i=0;
+        while(current){
+            datalist[i]=current.data;
+            current=current.next;
+            i++;
+        }
+        return datalist;
+    }
+
+    /*sortList(){
+        for(var i=0;i<this.size;i++){
+            for(var j=0;j<this.size-1;j++){
+                if(this.getAt(j+1)<this.getAt(j)){
+                    //this.removeAt(j);
+                    this.insertAtIndex(this.getAt(j),j);
+                    //this.removeAt(j+1);
+                    this.insertAtIndex(this.getAt(j+1),j+1);
+                }
+            }                                       
+        }
+        this.listToString();
+    }*/
 };
 module.exports={LinkedList,Node};
+
 /*
-var ll = new LinkedList(); 
-console.log(ll.isEmpty()); 
-ll.addElement(10); 
-ll.printList(); 
-ll.addElement(20); 
-ll.addElement(30); 
-ll.addElement(40); 
-ll.addElement(50); 
-ll.printList();  
-console.log("remove element" + ll.removeElement(50)); 
-ll.printList(); 
-console.log("is List Empty ? " + ll.isEmpty()); 
-ll.printList(); 
+var ll = new LinkedList();  
+ll.insertLast(60); 
+ll.insertLast(20); 
+ll.insertLast(70); 
+ll.insertLast(50); 
+ll.insertLast(40); 
+console.log(ll.listToString());
+console.log(ll.getAt(3));
+//console.log(ll.insertAtIndex((ll.getAt(2)),4));
+console.log(ll.size);
+//ll.sortList();
+console.log(ll.listToString());
 */

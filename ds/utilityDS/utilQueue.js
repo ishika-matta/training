@@ -1,3 +1,18 @@
+/******************************************************************************
+ * Execution    :   default node            terminal> node userInput.js
+ * 
+ * Purpose      :   Queue utility file
+ * 
+ * @description
+ * 
+ * @file        :   utilQueue.js
+ * @overview    :   Queue utility file
+ * @module      :   Queue functions
+ * @author      :   Ishika Matta imatta09@gmail.com
+ * @version     :   1.0
+ * @since       :   30-08-2019
+*******************************************************************************/
+
 class Queue{
     constructor(){
         this.items=[];
@@ -23,7 +38,7 @@ class Queue{
 
     front(){
         if(this.isEmpty())
-        return falswe
+        return false
         else
         return this.items[0];
     }

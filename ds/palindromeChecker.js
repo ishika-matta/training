@@ -1,21 +1,19 @@
-const Deque= require('double-ended-queue');
-const readline=require('readline-sync');
-var deque=new Deque();
+/******************************************************************************
+ * Execution    :   default node            terminal> node userInput.js
+ * 
+ * Purpose      :   Check if the string is a palindrome using Deque
+ * 
+ * @description
+ * 
+ * @file        :   palindromeChecker.js
+ * @overview    :   take User Input string and checks if it is a palindrome
+ * @module      :   palindromeCheck module to Check if the string is a palindrome using Deque
+ * @author      :   Ishika Matta imatta09@gmail.com
+ * @version     :   1.0
+ * @since       :   30-08-2019
+*******************************************************************************/
 
-//deque.insertFront("as");
+let util=require('../utility/utility');
+var str=util.input();
+console.log(util.palindromeCheck(str));
 
-var str=readline.question("Enter a string: ");
-for(var i=0;i<str.length;i++){
-deque.insertRear(str[i]);}
-console.log(deque);
-if(deque==str)
-console.log("t");
-console.log("f");
-
-/*var Queue=require('queue-fifo');
-var queue=new Queue();
-queue.enqueue(3);
-queue.enqueue(4);
-queue.enqueue(5);
-queue.dequeue();
-console.log(queue);*/

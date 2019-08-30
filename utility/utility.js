@@ -16,9 +16,11 @@
 
 
 var readline = require('readline-sync');
-var fs =require('fs');
-var list= require('../../ishika-matta/ds/utilityDS/utilLinkedList');
+var fs = require('fs');
+var list = require('../../ishika-matta/ds/utilityDS/utilLinkedList');
 var Stack = require('../ds/utilityDS/utilStack.js');
+var Queue = require('../ds/utilityDS/utilQueue');
+var Deque = require('../ds/utilityDS/utilDeque');
 module.exports = {
 
   /**
@@ -626,7 +628,7 @@ module.exports = {
     var m0 = m + 12 * ((14 - m) / 12) - 2;
     //console.log(m0);
     var d0 = parseInt((d + x + 31 * m0 / 12) % 7);
-    console.log(d0);
+    //console.log(d0);
     /**
     * @description print 0 for Sunday, 1 for Monday, 2 for Tuesday, and so forth.
     */
@@ -644,8 +646,8 @@ module.exports = {
       console.log("Friday");
     if (d0 == 6)
       console.log("Saturday");
-      //if(d0>0&&d0<7)
-      //return d0;
+    if (d0 >= 0 && d0 < 7)
+      return d0;
   },
   /**
   * @description given the temperature in fahrenheit as input outputs the temperature in Celsius or viceversa
@@ -760,73 +762,216 @@ module.exports = {
   },
 
 
-  fileRead(filename,callback){
-    fs.readFile(filename,'utf-8',function(err,data){
-      callback(null,data);
+  fileRead(filename, callback) {
+    fs.readFile(filename, 'utf-8', function (err, data) {
+      callback(null, data);
     })
 
   },
 
-  unorderedList(fileName,search){
-    var file,length;
-    this.fileRead(fileName,(err,data)=>{
-      
-        file=data;
-         var words= file.split(" ");
-         length=words.length;
-         var ll= new list.LinkedList();
-         for(i=0;i<length;i++)
-         {
-             ll.insertLast(words[i]);
-         }
-         if(ll.searchWord(search))
-           ll.removeAt(ll.searchWord(search));
-           else
-           ll.insertLast(search);
+  unorderedList(fileName, search) {
+    var file, length;
+    this.fileRead(fileName, (err, data) => {
 
-           var fileData=ll.listToString();
-           this.saveFile(fileData);
-                
+      file = data;
+      var words = file.split(" ");
+      length = words.length;
+      var ll = new list.LinkedList();
+      for (i = 0; i < length; i++) {
+        ll.insertLast(words[i]);
+      }
+      if (ll.searchWord(search))
+        ll.removeAt(ll.searchWord(search));
+      else
+        ll.insertLast(search);
+
+      var fileData = ll.listToString();
+      this.saveFile(fileData);
+
     });
   },
 
   saveFile(ipdata) {
-    fs.writeFile('Output.txt', ipdata, (err) => {
-        if (err) throw err;
+    fs.writeFile('output-number.txt', ipdata, (err) => {
+      if (err) throw err;
 
-        console.log("success");
+      console.log("FILE UPDATED");
     });
 
-},
+  },
+  arrayToString(arr) {
+    var result = " ";
+    for (var i = 0; i < arr.length; i++) {
+      result = result + " " + arr[i];
+    }
+    return result;
+
+  },
+
+  orderedList(fileName, searchNum) {
+    var file, length;
+    this.fileRead(fileName, (err, data) => {
+
+      file = data;
+      var num = file.split(" ");
+      length = num.length;
+      this.bubbleSort(num, length);
+
+      var ll = new list.LinkedList();
+      for (i = 0; i < length; i++) {
+        ll.insertLast(num[i]);
+      }
+
+      //ll.sortList();
+      if (ll.searchWord(searchNum)) {
+        ll.removeAt(ll.searchWord(searchNum));
+
+      }
+      else {
+        ll.insertLast(searchNum);
+      }
+      var arr = ll.listToArray();
+      this.bubbleSort(arr, length);
+
+      var fileData = this.arrayToString(arr);
+      this.saveFile(fileData);
+
+    });
+  },
+
+
 
 
 
   balancedParam(exp) {
-    var stack=new Stack();
-    try{
+    var stack = new Stack();
+    //try{
     for (var i = 0; i < exp.length; i++) {
-      if(exp[i]!=')'|| exp[i]!='('&&i==exp.length-1) throw 'invalid'
+      if (exp[i] == '(')
+        stack.push(exp[i]);
+      if (exp[i] == ')') {
+        if (stack.size() != 0) //&&exp[i-4]=='(')
+          stack.pop();
+        else
+          return false;
+      }
+      // if(exp[i]!=')'|| exp[i]!='('&&i==exp.length) //throw 'invalid'
       //return false;
 
-        if (exp[i] == '(')
-            stack.push(exp[i]);
-        if (exp[i] == ')') {
-            if (stack.size() != 0 &&exp[i-4]=='(')
-                stack.pop();
-            else
-                return false;
-        }
-        
-        
     }
     if (stack.isEmpty())
-        return true;
+      return true;
     else
-        return false;
+      return false;
+    // }
+    //catch(err){
+    //return err;
+    //}
+  },
+
+  bankingCash() {
+    var queue = new Queue();
+    var balance=0;
+    var amount, check;
+    try {
+      while (true) {
+        check = parseInt(readline.question("Enter 0 for withdraw or 1 for deposit and 8 to exit: "), 0);
+        if (isNaN(check)) throw 'invalid input'
+        if (check != 0 && check != 1 && check != 8) throw 'invalid input'
+
+        if(check==8)
+        return balance; 
+        amount = parseInt(readline.question("Enter the amount: "));
+        if (isNaN(amount)) throw 'invalid input'
+        if (amount <= 0) throw 'invalid input'
+
+        queue.enqueue(amount);
+        if (check == 0) {
+          if (balance >= amount)
+            balance = parseInt(balance) - parseInt(amount);
+          else
+            console.log("balance is: " + balance + " withdraw is: " + amount + " so insufficient balance");
+        }
+        if (check == 1)
+          balance = parseInt(balance) + parseInt(amount);
+        queue.dequeue();
+        //console.log(queue.printQueue());
+      }
+      //return balance;
+    }
+    catch (err) {
+      return err;
+    }
+
+    //else
+    //console.log("invalid entry");
+  },
+
+  palindromeCheck(str) {
+    console.log(typeof(str));
+    var deque = new Deque();
+    var ch = str.split("");
+    //console.log(ch);
+    for (var i = 0; i < ch.length; i++) {
+      deque.addBack(ch[i]);
+    }
+
+    console.log(deque.printDeque());
+    while (!deque.isEmpty()) {
+      if (deque.front() == deque.back()) {
+        deque.removeBack();
+        deque.removeFront();
+      }
+      else return false;
+    }
+    return true;
+
+  },
+
+  nBST(n) {
+    try{
+    if(typeof(n)!='number') throw 'input must be a number'
+    if(isNaN(n)) throw 'input must be a number'
+    if(n>99) throw 'input too large'
+    if(n<0) throw 'inputs cannot be negative'
+    var tree = [];
+    tree[0] = 1;
+    tree[1] = 1;
+    for (var i = 2; i <= n; i++) {
+      tree[i] = 0;
+    }
+    for (var i = 2; i <= n; i++) {
+      for (var j = 0; j < i; j++) {
+        tree[i] = parseInt(tree[i]) + parseInt(tree[j] * tree[i - j - 1]);
+        //console.log(tree[i]);
+      }
+    }
+    return tree;
   }
   catch(err){
     return err;
   }
+  },
+
+  calendar(m, y) {
+    var months = [" ", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    var days = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+    if (m == 2 && util.leapYear(y)) days[m] = 29;
+    var d = this.dayOfWeek(m, 1, y);
+    console.log(d);
+    console.log("Month: " + months[m] + " Year: " + y);
+    console.log("Sun Mon Tue Wed Thr Fri Sat");
+
+    for (var i = 0; i < d; i++) {
+      console.log('-');
+    }
+    for (var i = 1; i <= days[m]; i++) {
+      //process.stdout.write(i);
+      console.log(i);
+      if ((i + d) % 7 == 0) console.log();
+    }
+
+  }
 }
 
-}
