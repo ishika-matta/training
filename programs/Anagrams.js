@@ -14,13 +14,16 @@
 *******************************************************************************/
 
 var readline = require('readline-sync');
-let a=require('../utility/utility');
+let util=require('../utility/utility');
 var str1 = readline.question("Enter string 1: ");
 var str2 = readline.question("Enter string 2: ");
 
 
-a.checkAnagram(str1, str2);
-
+var bool=util.checkAnagram(str1, str2);
+if(bool==true)
+console.log("Anagrams");
+else
+console.log("Not Anagrams");
 
 
 

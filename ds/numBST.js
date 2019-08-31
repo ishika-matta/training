@@ -16,4 +16,4 @@
 let util=require('../utility/utility');
 var n=parseInt(util.input(),0);
 //var numOfBST=util.nBST(n).length-1;
-console.log("Total no of BST from node 0 to node " +n+" possible are: "+util.nBST(n));
+console.log("Total no of BST of node " +n+" are: "+util.nBST(n));

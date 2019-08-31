@@ -21,6 +21,8 @@ var list = require('../../ishika-matta/ds/utilityDS/utilLinkedList');
 var Stack = require('../ds/utilityDS/utilStack.js');
 var Queue = require('../ds/utilityDS/utilQueue');
 var Deque = require('../ds/utilityDS/utilDeque');
+var QueueLL = require('../ds/utilityDS/utilQueueLL');
+var show = require('util');
 module.exports = {
 
   /**
@@ -549,13 +551,13 @@ module.exports = {
       /**
       * @description check if count variable is equal to length
       */
-      if (flag == str1.length)
-        console.log("Anagrams");
+      if (flag != 0 && flag == str1.length)
+        return true;
       else
-        console.log("Not Anagrams");;
+        return false;
     }
     else
-      console.log("Not Anagrams");;
+      return false;
   },
 
   bubbleSort(arr, n) {
@@ -761,29 +763,51 @@ module.exports = {
     return ((binary & 0x0F) << 4 | (binary & 0xF0) >> 4);
   },
 
+  /**
+  * @description reading a file
+  */
 
   fileRead(filename, callback) {
     fs.readFile(filename, 'utf-8', function (err, data) {
       callback(null, data);
     })
-
   },
+  /**
+  * @description storing file data in a list and searching for a string
+  */
 
   unorderedList(fileName, search) {
     var file, length;
     this.fileRead(fileName, (err, data) => {
 
       file = data;
+      /**
+      * @description 
+      * @var words is used to split file data into words
+      */
       var words = file.split(" ");
       length = words.length;
+      /**
+      * @description using linked list utility
+      */
       var ll = new list.LinkedList();
       for (i = 0; i < length; i++) {
         ll.insertLast(words[i]);
       }
+      /**
+      * @description looking for the serach word in file
+      */
       if (ll.searchWord(search))
         ll.removeAt(ll.searchWord(search));
       else
+      /**
+      * @description if word not avaible insert it at last
+      */
         ll.insertLast(search);
+
+        /**
+        * @description saving the list
+        */
 
       var fileData = ll.listToString();
       this.saveFile(fileData);
@@ -791,14 +815,23 @@ module.exports = {
     });
   },
 
+  /**
+  * @description saving the list in a new output file
+  */
+
   saveFile(ipdata) {
     fs.writeFile('output-number.txt', ipdata, (err) => {
       if (err) throw err;
-
+      /**
+      * @description Shows file updated when output file is made
+      */
       console.log("FILE UPDATED");
     });
-
   },
+
+  /**
+  * @description to convert array to string 
+  */
   arrayToString(arr) {
     var result = " ";
     for (var i = 0; i < arr.length; i++) {
@@ -807,22 +840,33 @@ module.exports = {
     return result;
 
   },
+  /**
+  * @description storing file data in ascending order and looking for search
+  */
 
   orderedList(fileName, searchNum) {
     var file, length;
     this.fileRead(fileName, (err, data) => {
 
       file = data;
+      /**
+      * @var num to split data in the file
+      */
       var num = file.split(" ");
       length = num.length;
+      /**
+      * @description bubble sort used to sort the array
+      */
       this.bubbleSort(num, length);
 
       var ll = new list.LinkedList();
       for (i = 0; i < length; i++) {
         ll.insertLast(num[i]);
       }
-
       //ll.sortList();
+      /**
+      * @description searching for the number and doing operation
+      */
       if (ll.searchWord(searchNum)) {
         ll.removeAt(ll.searchWord(searchNum));
 
@@ -830,25 +874,35 @@ module.exports = {
       else {
         ll.insertLast(searchNum);
       }
+      /**
+      * @description converting the list to array and gain performing sorting on it
+      */
       var arr = ll.listToArray();
       this.bubbleSort(arr, length);
-
+      /**
+      * @description array to string and then saving the file
+      */
       var fileData = this.arrayToString(arr);
       this.saveFile(fileData);
-
     });
   },
 
-
-
-
+/**
+* @description check for balanced paranthensis
+*/
 
   balancedParam(exp) {
     var stack = new Stack();
     //try{
     for (var i = 0; i < exp.length; i++) {
+      /**
+      * @description push open brace
+      */
       if (exp[i] == '(')
         stack.push(exp[i]);
+        /**
+        * @description pop close brace
+        */
       if (exp[i] == ')') {
         if (stack.size() != 0) //&&exp[i-4]=='(')
           stack.pop();
@@ -868,19 +922,26 @@ module.exports = {
     //return err;
     //}
   },
-
+/**
+* @description simulating banking cash counter
+*/
   bankingCash() {
     var queue = new Queue();
-    var balance=0;
+    var balance = 0;
     var amount, check;
     try {
+      /**
+      * @description implement queue till it is true
+      */
       while (true) {
         check = parseInt(readline.question("Enter 0 for withdraw or 1 for deposit and 8 to exit: "), 0);
         if (isNaN(check)) throw 'invalid input'
         if (check != 0 && check != 1 && check != 8) throw 'invalid input'
-
-        if(check==8)
-        return balance; 
+        /**
+        * @description implementing conditions
+        */
+        if (check == 8)
+          return balance;
         amount = parseInt(readline.question("Enter the amount: "));
         if (isNaN(amount)) throw 'invalid input'
         if (amount <= 0) throw 'invalid input'
@@ -907,14 +968,24 @@ module.exports = {
     //console.log("invalid entry");
   },
 
+  /**
+  * @description check if the input string is a palindrome
+  */
+
   palindromeCheck(str) {
-    console.log(typeof(str));
+    console.log(typeof (str));
+    /**
+    * @description used deque
+    */
     var deque = new Deque();
     var ch = str.split("");
     //console.log(ch);
     for (var i = 0; i < ch.length; i++) {
       deque.addBack(ch[i]);
     }
+    /**
+    * @description using deque utility file
+    */
 
     console.log(deque.printDeque());
     while (!deque.isEmpty()) {
@@ -927,51 +998,162 @@ module.exports = {
     return true;
 
   },
+  /**
+  * @description number of binary search tree using dynmaic programming
+  */
 
   nBST(n) {
-    try{
-    if(typeof(n)!='number') throw 'input must be a number'
-    if(isNaN(n)) throw 'input must be a number'
-    if(n>99) throw 'input too large'
-    if(n<0) throw 'inputs cannot be negative'
-    var tree = [];
-    tree[0] = 1;
-    tree[1] = 1;
-    for (var i = 2; i <= n; i++) {
-      tree[i] = 0;
-    }
-    for (var i = 2; i <= n; i++) {
-      for (var j = 0; j < i; j++) {
-        tree[i] = parseInt(tree[i]) + parseInt(tree[j] * tree[i - j - 1]);
-        //console.log(tree[i]);
+    try {
+      if (typeof (n) != 'number') throw 'input must be a number'
+      if (isNaN(n)) throw 'input must be a number'
+      if (n > 99) throw 'input too large'
+      if (n < 0) throw 'inputs cannot be negative'
+      var tree = [];
+      tree[0] = 1;
+      tree[1] = 1;
+      for (var i = 2; i <= n; i++) {
+        tree[i] = 0;
       }
+      /**
+      * @description used DP
+      */
+      for (var i = 2; i <= n; i++) {
+        for (var j = 0; j < i; j++) {
+          tree[i] = parseInt(tree[i]) + parseInt(tree[j] * tree[i - j - 1]);
+          //console.log(tree[i]);
+        }
+      }
+      return tree[n];
     }
-    return tree;
-  }
-  catch(err){
-    return err;
-  }
+    catch (err) {
+      return err;
+    }
   },
+
+  /**
+  * @description printing the calendar
+  */
 
   calendar(m, y) {
     var months = [" ", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     var days = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+    /**
+    * @description checking for leap year
+    */
 
     if (m == 2 && util.leapYear(y)) days[m] = 29;
     var d = this.dayOfWeek(m, 1, y);
     console.log(d);
     console.log("Month: " + months[m] + " Year: " + y);
-    console.log("Sun Mon Tue Wed Thr Fri Sat");
+    console.log("S M T W T F S");
+    /**
+    * @description used show.print() to print in a single line
+    */
 
     for (var i = 0; i < d; i++) {
-      console.log('-');
+      show.print('-');
+      show.print(" ");
     }
     for (var i = 1; i <= days[m]; i++) {
       //process.stdout.write(i);
-      console.log(i);
+      //console.log(i);
+      show.print(i);
+      show.print(" ");
       if ((i + d) % 7 == 0) console.log();
     }
 
+  },
+
+  /**
+  * @description displaying calendar using queue made from linkedlist
+  */
+
+  qCalendar(m, y) {
+    var months = [" ", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    console.log("Month: " + months[m] + " Year: " + y);
+
+    var queueDate = new QueueLL();
+    var date = this.dayOfWeek(m, 1, y);
+    console.log(date);
+    /**
+    * @description adding days
+    */
+    var queueDay = new QueueLL();
+    queueDay.enqueue("S");
+    queueDay.enqueue("M");
+    queueDay.enqueue("T");
+    queueDay.enqueue("W");
+    queueDay.enqueue("T");
+    queueDay.enqueue("F");
+    queueDay.enqueue("S");
+    console.log(queueDay.printQueueLL());
+    /**
+    * @description coded days and leapyear
+    */
+
+    var days = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+    if (m == 2 && this.leapYear(y)) days[m] = 29;
+    /**
+    * @description storing data in the queue
+    */
+
+    for (var i = 0; i < date; i++) {
+      queueDate.enqueue('-');
+    }
+    for (var i = 1; i <= days[m]; i++) {
+      queueDate.enqueue(i);
+
+      if ((i + date) % 7 == 0) {
+        queueDate.enqueue('\r\n');
+      }
+    }
+    console.log(queueDate.printQueueLL());
+  },
+  /**
+  * @description printing prime no in a 2D array
+  */
+
+  print2dPrime() {
+    var i, j = 0, r = 0, c = 0, flag = 0, arr = [], arr2d = [], k = -1;
+    arr = this.printPrime();
+    for (i = 0; i < 1000; i = i + 100) {
+      k++;
+      arr2d[k] = [];
+      /**
+      * @description using while loop for converting 1D array to 2D array
+      */
+      while (arr[j] < i + 100) {
+        arr2d[k][c] = arr[j];
+        c++;
+        j++;
+      }
+    }
+    return arr2d;
+  },
+  /**
+  * @description printing prime no in a range
+  */
+  printPrime() {
+    var flag = 0, prime = 0, primeArr = [];
+    for (i = 0; i < 1000; i++) {
+      for (j = 2; j < i; j++) {
+        if (i % j == 0) {
+          flag = 1;
+          break;
+        }
+      }
+      /**
+      * @description if prime no encountered then store it in array
+      */
+      if (flag == 0) {
+        primeArr[prime] = i;
+        prime++;
+      }
+      flag = 0;
+    }
+    return primeArr;
   }
 }
+
+
 

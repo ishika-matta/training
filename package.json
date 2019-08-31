@@ -9,6 +9,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "readline-sync": "^1.4.10"
+    "log4js": "^5.1.0",
+    "readline-sync": "^1.4.10",
+    "winston": "^3.2.1"
   }
 }

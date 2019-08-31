@@ -14,4 +14,5 @@
 *******************************************************************************/
 
 let util=require('../utility/utility');
-util.unorderedList('../ds/input_file.txt','ish');
+var str=util.input();
+util.unorderedList('../ds/input_file.txt',str);
