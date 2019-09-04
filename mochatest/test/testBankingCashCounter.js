@@ -8,8 +8,8 @@ describe('Banking Cash counter', function(){
         assert.equal(result,"invalid input");
     });
     it("Test Post Request", function(done) {
-        this.timeout(100000);
+        this.timeout(2000);
    });
 });
-
 */
+

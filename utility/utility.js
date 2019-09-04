@@ -29,7 +29,7 @@ module.exports = {
   * @description used to take user input value
   */
   input() {
-    console.log("Enter a value: ");
+    console.log("Enter : ");
     var value = readline.question();
     return value;
   },
@@ -534,30 +534,27 @@ module.exports = {
     /**
     * @description if string lengths are equal then only they will be a rearrangement
     */
-    if (str1.length == str2.length) {
+    var ana = [];
+    var k = 0, j = 0;
+    if (str1.length === str2.length) {
       for (var i = 0; i < str1.length; i++) {
-        for (var j = 0; j < str2.length; j++) {
-          /**
-          * @description check if all characters in string1 are same as characters in string2
-          */
-          if (str1[i] == str2[j])
-            /**
-            * @description 
-            * @var flag increment by 1
-            */
-            flag++;
-        }
+        ana.push(str1[i]);
       }
-      /**
-      * @description check if count variable is equal to length
-      */
-      if (flag != 0 && flag == str1.length)
-        return true;
-      else
-        return false;
+      while (ana.length != 0) {
+        for (j = 0; j < str2.length; j++) {
+          if (ana[k] == str2[j]) {
+            ana.pop();
+            k++;
+          }
+        }
+
+      }
+      return true;
     }
+
     else
       return false;
+
   },
 
   bubbleSort(arr, n) {
@@ -772,6 +769,7 @@ module.exports = {
       callback(null, data);
     })
   },
+
   /**
   * @description storing file data in a list and searching for a string
   */
@@ -800,14 +798,14 @@ module.exports = {
       if (ll.searchWord(search))
         ll.removeAt(ll.searchWord(search));
       else
-      /**
-      * @description if word not avaible insert it at last
-      */
+        /**
+        * @description if word not avaible insert it at last
+        */
         ll.insertLast(search);
 
-        /**
-        * @description saving the list
-        */
+      /**
+      * @description saving the list
+      */
 
       var fileData = ll.listToString();
       this.saveFile(fileData);
@@ -863,7 +861,6 @@ module.exports = {
       for (i = 0; i < length; i++) {
         ll.insertLast(num[i]);
       }
-      //ll.sortList();
       /**
       * @description searching for the number and doing operation
       */
@@ -887,9 +884,9 @@ module.exports = {
     });
   },
 
-/**
-* @description check for balanced paranthensis
-*/
+  /**
+  * @description check for balanced paranthensis
+  */
 
   balancedParam(exp) {
     var stack = new Stack();
@@ -900,31 +897,24 @@ module.exports = {
       */
       if (exp[i] == '(')
         stack.push(exp[i]);
-        /**
-        * @description pop close brace
-        */
+      /**
+      * @description pop close brace
+      */
       if (exp[i] == ')') {
         if (stack.size() != 0) //&&exp[i-4]=='(')
           stack.pop();
         else
           return false;
       }
-      // if(exp[i]!=')'|| exp[i]!='('&&i==exp.length) //throw 'invalid'
-      //return false;
-
     }
     if (stack.isEmpty())
       return true;
     else
       return false;
-    // }
-    //catch(err){
-    //return err;
-    //}
   },
-/**
-* @description simulating banking cash counter
-*/
+  /**
+  * @description simulating banking cash counter
+  */
   bankingCash() {
     var queue = new Queue();
     var balance = 0;
@@ -1152,7 +1142,96 @@ module.exports = {
       flag = 0;
     }
     return primeArr;
-  }
+  },
+
+  inventoryData() {
+    var content = fs.readFileSync('inventory.json', 'utf8');
+    var obj = JSON.parse(content);
+    console.log(obj);
+    var value = [];
+    for (var i = 0; i < 3; i++) {
+      obj[i].value = parseInt((obj[i].weightInKg) * (obj[i].pricePerKg));
+
+    }
+
+    let dataInv = JSON.stringify(obj);
+    this.saveInventoryFile(dataInv);
+    return obj;
+  },
+
+  saveInventoryFile(data) {
+    fs.writeFile('inventory.json', data, (err) => {
+      if (err) throw err;
+      /**
+      * @description Shows file updated when output file is made
+      */
+      console.log("FILE UPDATED");
+    });
+  },
+  saveStockReport(data) {
+    var fs = require('fs');
+    fs.writeFile('stockRep.json', data, (err) => {
+      if (err) throw err;
+      console.log("FILE UPDATED");
+    });
+  },
+
+  userInputStock() {
+    var readline = require('readline-sync');
+    var fs = require('fs');
+    var nStocks = readline.question("Enter the no of stocks: ");
+    var shareName = [];
+    var nShares = [];
+    var sharePrice = [];
+    var valueStocks = [];
+    var totalValue = 0;
+    var elements = [];
+
+
+
+    for (var i = 0; i < nStocks; i++) {
+      shareName[i] = readline.question("Enter the sharename for stock " + i + " : ");
+      nShares[i] = readline.question("Enter the no of shares for stock " + i + " : ");
+      sharePrice[i] = readline.question("Enter the share price for stock " + i + " : ");
+      elements[i] = { "shareName": shareName[i], "nShares": nShares[i], "sharePrice": sharePrice[i], "valueStocks": valueStocks[i] };
+
+    }
+    let data = JSON.stringify(elements);
+    this.saveStockReport(data);
+  },
+
+
+
+
+  inventoryStockData() {
+    var content = fs.readFileSync('stockRep.json', 'utf8');
+    var obj = JSON.parse(content);
+    console.log(obj);
+    var valueOfStock = [];
+    for (var i = 0; i < obj.length; i++) {
+      obj[i].valueOfStock = parseInt((obj[i].nShares) * (obj[i].sharePrice));
+      console.log(obj);
+    }
+
+    let dataInv = JSON.stringify(obj);
+    this.saveInventoryFile(dataInv);
+    return obj;
+  },
+
+  saveInventoryFile(data) {
+    fs.writeFile('stockRep.json', data, (err) => {
+      if (err) throw err;
+      /**
+      * @description Shows file updated when output file is made
+      */
+      console.log("FILE UPDATED");
+    });
+  },
+
+
+
+
+
 }
 
 
