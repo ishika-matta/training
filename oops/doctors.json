@@ -1,0 +1,8 @@
+[
+    {"docName":"amit","docId":101,"docSpecialization":"neurologist","docAvailability":"am"},
+    {"docName":"jennifer","docId":102,"docSpecialization":"oncologist","docAvailability":"pm"},
+    {"docName":"sudha","docId":103,"docSpecialization":"cardiologist","docAvailability":"both"},
+    {"docName":"sim","docId":104,"docSpecialization":"physician","docAvailability":"am"},
+    {"docName":"nick","docId":105,"docSpecialization":"anesthesiologist","docAvailability":"am"}
+]
+

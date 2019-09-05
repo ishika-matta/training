@@ -1179,25 +1179,34 @@ module.exports = {
   userInputStock() {
     var readline = require('readline-sync');
     var fs = require('fs');
+    try{
     var nStocks = readline.question("Enter the no of stocks: ");
+    if(isNaN(nStocks)) throw "input must be a number"
     var shareName = [];
     var nShares = [];
     var sharePrice = [];
     var valueStocks = [];
     var totalValue = 0;
     var elements = [];
+    
 
 
 
     for (var i = 0; i < nStocks; i++) {
       shareName[i] = readline.question("Enter the sharename for stock " + i + " : ");
+      
       nShares[i] = readline.question("Enter the no of shares for stock " + i + " : ");
+      if(isNaN(nShares[i])) throw "input must be a number"
       sharePrice[i] = readline.question("Enter the share price for stock " + i + " : ");
+      if(isNaN(sharePrice[i])) throw "input must be a number"
       elements[i] = { "shareName": shareName[i], "nShares": nShares[i], "sharePrice": sharePrice[i], "valueStocks": valueStocks[i] };
 
     }
     let data = JSON.stringify(elements);
-    this.saveStockReport(data);
+    this.saveStockReport(data);}
+    catch(err){
+      return err;
+    }
   },
 
 
@@ -1227,11 +1236,6 @@ module.exports = {
       console.log("FILE UPDATED");
     });
   },
-
-
-
-
-
 }
 
 
