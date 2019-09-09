@@ -1,23 +1,38 @@
+/******************************************************************************
+ * Execution    :   default node            terminal> node userInput.js
+ * 
+ * Purpose      :  maintaining an address book utility file
+ * 
+ * @description
+ * 
+ * @file        :   addressBookTemplate.js
+ * @overview    :   maintaining an address book utility file
+ * @module      :   add address, to update, to delete and sort
+ * @author      :   Ishika Matta imatta09@gmail.com
+ * @version     :   1.0
+ * @since       :   09-09-2019
+*******************************************************************************/
+
 var fs = require('fs');
 var readline = require('readline-sync');
 
-function fileRead(filename, callback) {
-    fs.readFile(filename, 'utf-8', function (err, data) {
-        callback(null, data);
-    })
-}
-function saveAddress(data) {
+class AddressBook {
 
-    fs.writeFile('addressBook.json', data, (err) => {
-        if (err) throw err;
-        console.log("FILE UPDATED");
-    });
-}
-function pref() {
-    var pref = readline.question("Enter 1 to add address, 2 to update, 3 to delete, 4 to sort and 5 to exit: ");
+    fileRead(filename, callback) {
+        fs.readFile(filename, 'utf-8', function (err, data) {
+            callback(null, data);
+        })
+    }
+    saveAddress(data) {
 
-    if (pref == 1) {
-        fileRead('addressBook.json', (err, data) => {
+        fs.writeFile('addressBook.json', data, (err) => {
+            if (err) throw err;
+            console.log("FILE UPDATED");
+        });
+    }
+
+    addAdress() {
+        this.fileRead('addressBook.json', (err, data) => {
             var file = data;
             var elements = [];
             elements = JSON.parse(file);
@@ -42,14 +57,12 @@ function pref() {
             elements[i] = obj;
             i++;
             let dataAdd = JSON.stringify(elements);
-            saveAddress(dataAdd);
+            this.saveAddress(dataAdd);
         });
-
-
     }
-    if (pref == 2) {
-        fileRead('addressBook.json', (err, data) => {
 
+    updateAddress() {
+        this.fileRead('addressBook.json', (err, data) => {
             var file = data;
             var elements = [];
             elements = JSON.parse(file);
@@ -73,12 +86,12 @@ function pref() {
                     elements[i].phoneNumber = finalValue;
             }
             let dataAdd = JSON.stringify(elements);
-            saveAddress(dataAdd);
+            this.saveAddress(dataAdd);
         });
     }
 
-    if (pref == 3) {
-        fileRead('addressBook.json', (err, data) => {
+    deleteAddress() {
+        this.fileRead('addressBook.json', (err, data) => {
             var file = data;
             var elements = [];
             elements = JSON.parse(file);
@@ -94,12 +107,13 @@ function pref() {
             }
 
             let dataAdd = JSON.stringify(elements);
-            saveAddress(dataAdd);
+            this.saveAddress(dataAdd);
 
         });
     }
-    if (pref == 4) {
-        fileRead('addressBook.json', (err, data) => {
+
+    sortAddress() {
+        this.fileRead('addressBook.json', (err, data) => {
             var file = data;
             var elements = [];
             elements = JSON.parse(file);
@@ -127,15 +141,15 @@ function pref() {
                     }
                 }
             }
-
             let dataAdd = JSON.stringify(elements);
-            saveAddress(dataAdd);
+            this.saveAddress(dataAdd);
         });
     }
-    else
-        return;
-
 }
 
-pref();
+module.exports = AddressBook;
+
+
+
+
 
