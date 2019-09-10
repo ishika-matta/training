@@ -32,34 +32,51 @@ class AddressBook {
     }
 
     addAdress() {
-        this.fileRead('addressBook.json', (err, data) => {
-            var file = data;
-            var elements = [];
-            elements = JSON.parse(file);
+        try {
+            this.fileRead('addressBook.json', (err, data) => {
+                var file = data;
+                var elements = [];
+                elements = JSON.parse(file);
 
-            var i = elements.length;
-            var firstName = readline.question("Enter first name: ");
-            var lastName = readline.question("Enter last name: ");
-            var address = readline.question("Enter address: ");
-            var city = readline.question("Enter city: ");
-            var state = readline.question("Enter state: ");
-            var zip = readline.question("Enter zip: ");
-            var phoneNumber = readline.question("Enter phone number: ");
-            var obj = {
-                firstName: firstName,
-                lastName: lastName,
-                address: address,
-                city: city,
-                state: state,
-                zip: zip,
-                phoneNumber: phoneNumber
-            }
-            elements[i] = obj;
-            i++;
-            let dataAdd = JSON.stringify(elements);
-            this.saveAddress(dataAdd);
-        });
+
+                var i = elements.length;
+                var firstName = readline.question("Enter first name: ");
+                if(!isNaN(firstName)) throw "first name must be a string"
+                var lastName = readline.question("Enter last name: ");
+                var address = readline.question("Enter address: ");
+                var city = readline.question("Enter city: ");
+                var state = readline.question("Enter state: ");
+                var zip = readline.question("Enter zip: ");
+                if (isNaN(zip)) throw "zip must be a number"
+                var phoneNumber = readline.question("Enter phone number: ");
+                if (isNaN(phoneNumber)) throw "phone no must be a number"
+                if (phoneNumber.length != 10) throw "input phone no must be a valid number"
+
+                var obj = {
+                    firstName: firstName,
+                    lastName: lastName,
+                    address: address,
+                    city: city,
+                    state: state,
+                    zip: zip,
+                    phoneNumber: phoneNumber
+                }
+                elements[i] = obj;
+                i++;
+                let dataAdd = JSON.stringify(elements);
+                this.saveAddress(dataAdd);
+
+
+            });
+        }
+        catch (err) {
+            console.log(err);
+            //this.addAdress();
+        }
+
     }
+
+
 
     updateAddress() {
         this.fileRead('addressBook.json', (err, data) => {

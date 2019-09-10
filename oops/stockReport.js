@@ -14,6 +14,7 @@
  * @version     :   1.0
  * @since       :   09-09-2019
 *******************************************************************************/
+
 const util=require('../utility/utility');
 util.userInputStock();
 

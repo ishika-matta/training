@@ -1,1 +1,1 @@
-[{},{"customerName":"a","stockName":"jio","priceOfStock":15,"numberOfShares":"1","status":"buy"},{"customerName":"a","stockName":"tcs","priceOfStock":10,"numberOfShares":"3","status":"buy"}]
+[{},{"customerName":"abc","stockName":"jio","priceOfStock":25,"numberOfShares":"2","status":"buy"},{"customerName":"fcfc","stockName":"jio","priceOfStock":25,"numberOfShares":"12","status":"buy"},{"customerName":"abc","stockName":"icici","priceOfStock":10,"numberOfShares":"2","status":"buy"}]

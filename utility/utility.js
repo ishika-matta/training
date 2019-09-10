@@ -1143,6 +1143,9 @@ module.exports = {
     }
     return primeArr;
   },
+  /**
+  * @description  Inventory Details for Rice, Pulses and Wheats with properties
+  */
 
   inventoryData() {
     var content = fs.readFileSync('inventory.json', 'utf8');
@@ -1150,6 +1153,9 @@ module.exports = {
     console.log(obj);
     var value = [];
     for (var i = 0; i < 3; i++) {
+      /**
+      * @description @var calculating the value
+      */
       obj[i].value = parseInt((obj[i].weightInKg) * (obj[i].pricePerKg));
 
     }
@@ -1168,6 +1174,10 @@ module.exports = {
       console.log("FILE UPDATED");
     });
   },
+  /**
+  * @description writing to stock rep file
+  */
+
   saveStockReport(data) {
     var fs = require('fs');
     fs.writeFile('stockRep.json', data, (err) => {
@@ -1175,6 +1185,10 @@ module.exports = {
       console.log("FILE UPDATED");
     });
   },
+
+  /**
+  * @description reading user input to create stocks file
+  */
 
   userInputStock() {
     var readline = require('readline-sync');
@@ -1188,17 +1202,17 @@ module.exports = {
     var valueStocks = [];
     var totalValue = 0;
     var elements = [];
-    
-
-
+    /**
+    * @description taking user inputs
+    */
 
     for (var i = 0; i < nStocks; i++) {
       shareName[i] = readline.question("Enter the sharename for stock " + i + " : ");
       
       nShares[i] = readline.question("Enter the no of shares for stock " + i + " : ");
-      if(isNaN(nShares[i])) throw "input must be a number"
+      if(isNaN(nShares[i])) throw "input no of shares must be a number"
       sharePrice[i] = readline.question("Enter the share price for stock " + i + " : ");
-      if(isNaN(sharePrice[i])) throw "input must be a number"
+      if(isNaN(sharePrice[i])) throw "input share price must be a number"
       elements[i] = { "shareName": shareName[i], "nShares": nShares[i], "sharePrice": sharePrice[i], "valueStocks": valueStocks[i] };
 
     }
@@ -1209,8 +1223,9 @@ module.exports = {
     }
   },
 
-
-
+  /**
+  * @description calculating the stock inventory
+  */
 
   inventoryStockData() {
     var content = fs.readFileSync('stockRep.json', 'utf8');
@@ -1226,6 +1241,10 @@ module.exports = {
     this.saveInventoryFile(dataInv);
     return obj;
   },
+
+  /**
+  * @description writing and updating the file
+  */
 
   saveInventoryFile(data) {
     fs.writeFile('stockRep.json', data, (err) => {

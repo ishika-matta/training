@@ -108,18 +108,26 @@ class CommercialData {
 
 
     customerData() {
-        let customerInfo = this.fileRead('customer.json')
-        customerInfo = JSON.parse(customerInfo)
-        console.log("Enter customer name: ");
-        var custName = this.input();
-        console.log("Enter the share name: ");
-        var custShare = this.input();
-        console.log("Enter the no of shares: ");
-        var custNoShare = this.input();
-        var input = this.customer(custName, custShare, custNoShare);
-        customerInfo.push(input);
-        var cInfo = JSON.stringify(customerInfo);
-        this.fileSave('customer.json', cInfo);
+        try {
+            let customerInfo = this.fileRead('customer.json')
+            customerInfo = JSON.parse(customerInfo)
+            console.log("Enter customer name: ");
+            var custName = this.input();
+            console.log("Enter the share name: ");
+            var custShare = this.input();
+            console.log("Enter the no of shares: ");
+            var custNoShare = parseInt(this.input());
+            if (isNaN(custNoShare)) throw 'input no of shares must be a number'
+
+            var input = this.customer(custName, custShare, custNoShare);
+            customerInfo.push(input);
+            var cInfo = JSON.stringify(customerInfo);
+            this.fileSave('customer.json', cInfo);
+        }
+        catch (err) {
+            console.log(err);
+            this.customerData();
+        }
     }
 
     /*
@@ -175,63 +183,69 @@ class CommercialData {
         }
     }
 */
-    
+
 
 
     buyStock() {
-        let stockInfo = this.fileRead('stock.json')    
-        stockInfo = JSON.parse(stockInfo)
-        let customerInfo = this.fileRead('customer.json')
-        customerInfo = JSON.parse(customerInfo)
-        let transInfo = this.fileRead('transaction.json')
-        transInfo = JSON.parse(transInfo)
-        console.log('enter customer who wants to buy stock :')
-        var name = this.input();
-        console.log('enter the company you wish to buy stock from:')
-        var comp = this.input();
-        console.log('enter how many  stock you want to buy:')
-        var noStocks = this.input();
-        var check = this.stockAvailability(comp, noStocks);
-        console.log(check)
-        var index = this.getIndexOfStock(comp);
-        console.log(index)
-        var inputNameIndex = this.searchCustomer(name);
-        if (check) {
-            var input = this.transaction(name, comp, check, noStocks, 'buy');
-            transInfo.push(input);
-            stockInfo[index].nShares = stockInfo[index].nShares - noStocks;
-            var tinfo = JSON.stringify(transInfo);
-            this.fileSave('transaction.json', tinfo);
-            var sinfo = JSON.stringify(stockInfo);
-            this.fileSave('stock.json', sinfo);
-            if (inputNameIndex) {
-                var detailsIndex = this.getIndexOfDetail(comp, name);
-                if (detailsIndex) {
-                    customerInfo[inputNameIndex].details[detailsIndex].share = parseInt(customerInfo[inputNameIndex].details[detailsIndex].share) + parseInt(noStocks);
+        try {
+            let stockInfo = this.fileRead('stock.json')
+            stockInfo = JSON.parse(stockInfo)
+            let customerInfo = this.fileRead('customer.json')
+            customerInfo = JSON.parse(customerInfo)
+            let transInfo = this.fileRead('transaction.json')
+            transInfo = JSON.parse(transInfo)
+            console.log('enter customer who wants to buy stock :')
+            var name = this.input();
+            console.log('enter the company you wish to buy stock from:')
+            var comp = this.input();
+            console.log('enter how many  stock you want to buy:')
+            var noStocks = this.input();
+            if (isNaN(noStocks)) throw " no of stocks must be a number"
+            var check = this.stockAvailability(comp, noStocks);
+            var index = this.getIndexOfStock(comp);
+            var inputNameIndex = this.searchCustomer(name);
+            if (check) {
+                var input = this.transaction(name, comp, check, noStocks, 'buy');
+                transInfo.push(input);
+                stockInfo[index].nShares = stockInfo[index].nShares - noStocks;
+                var tinfo = JSON.stringify(transInfo);
+                this.fileSave('transaction.json', tinfo);
+                var sinfo = JSON.stringify(stockInfo);
+                this.fileSave('stock.json', sinfo);
+                if (inputNameIndex) {
+                    var detailsIndex = this.getIndexOfDetail(comp, name);
+                    if (detailsIndex) {
+                        customerInfo[inputNameIndex].details[detailsIndex].share = parseInt(customerInfo[inputNameIndex].details[detailsIndex].share) + parseInt(noStocks);
+                        var cInfo = JSON.stringify(customerInfo);
+                        this.fileSave('customer.json', cInfo);
+                    }
+                    else {
+                        var input = this.addStock(comp, noStocks)
+                        customerInfo[inputNameIndex].details.push(input);
+                        var cInfo = JSON.stringify(customerInfo);
+                        this.fileSave('customer.json', cInfo)
+                    }
+                }
+                else {
+                    var input = this.customer(name, comp, noStocks);
+                    customerInfo.push(input);
                     var cInfo = JSON.stringify(customerInfo);
                     this.fileSave('customer.json', cInfo);
                 }
-                else {
-                    var input = this.addStock(comp, noStocks)
-                    customerInfo[inputNameIndex].details.push(input);
-                    var cInfo = JSON.stringify(customerInfo);
-                    this.fileSave('customer.json', cInfo)
-                }
             }
             else {
-                var input = this.customer(name, comp, noStocks);
-                customerInfo.push(input);
-                var cInfo = JSON.stringify(customerInfo);
-                this.fileSave('customer.json', cInfo);
+                console.log('This stock is not available');
             }
         }
-        else {
-            console.log('This stock is not available');
+
+        catch (err) {
+            console.log(err);
+            this.buyStock();
         }
     }
 }
 
-module.exports=CommercialData;
+module.exports = CommercialData;
 
 //var cd = new CommercialData;
 //cd.customerData();

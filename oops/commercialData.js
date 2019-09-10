@@ -22,6 +22,8 @@ function pref() {
          cd.customerData();
     if (pref == 2) 
         cd.buyStock(); 
+        else
+        console.log("invalid input");
     
     }
 

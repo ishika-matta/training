@@ -27,5 +27,7 @@ function pref() {
         ab.deleteAddress();
     if (pref == 4)
         ab.sortAddress();
+        //else
+        //console.log("Invalid input");
 }
 pref();
